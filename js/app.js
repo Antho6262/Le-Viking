@@ -7,11 +7,11 @@ const NAV_ITEMS = [
   { page: "dashboard",    icon: "🛡️", label: "Dashboard",    file: "dashboard.html" },
   { page: "tracker",      icon: "📜", label: "Tracker",      file: "tracker.html" },
   { page: "stock",        icon: "⚓", label: "Stock",        file: "stock.html" },
-  { page: "transactions", icon: "🔁", label: "Transactions", file: "transactions.html" },
-  { page: "blanchiment",  icon: "💵", label: "Blanchiment",  file: "blanchiment.html" },
-  { page: "stats",        icon: "📊", label: "Stats & Quotas", file: "stats.html" },
+  { page: "transactions", icon: "⚔️", label: "Transactions", file: "transactions.html" },
+  { page: "blanchiment",  icon: "🔥", label: "Blanchiment",  file: "blanchiment.html" },
+  { page: "stats",        icon: "🐉", label: "Stats & Quotas", file: "stats.html" },
   { page: "paye",         icon: "💰", label: "Paye",         file: "paye.html" },
-  { page: "taxes",        icon: "🧾", label: "Taxes",        file: "taxes.html" },
+  { page: "taxes",        icon: "📯", label: "Taxes",        file: "taxes.html" },
   { page: "admin",        icon: "🔨", label: "Admin",        file: "admin.html" },
   { page: "profil",       icon: "🐺", label: "Profil",       file: "profil.html" }
 ];
