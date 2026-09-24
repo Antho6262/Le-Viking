@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Initialisation — Le Viking</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+
+<div class="login-wrap">
+  <div class="login-card fade-in" style="max-width:440px;">
+    <div class="login-brand">INITIALISATION</div>
+    <div class="login-sub">Usage unique — Le Viking</div>
+    <div class="sigil-rule"></div>
+
+    <p class="muted small" style="line-height:1.6;">
+      Ce bouton crée la base vierge dans Firebase : un seul membre
+      (<b style="color:var(--steel)">Tony Diaz — Fondateur</b>) avec accès total,
+      et toutes les autres données (stock, actions, semaines, membres suivants…)
+      restent vides pour être configurées depuis l'Admin.
+    </p>
+
+    <div id="warnBox" class="panel" style="display:none; border-color:rgba(193,86,76,.4); margin-top:14px;">
+      <p class="small" style="color:var(--danger); margin:0;">⚠️ Des données existent déjà dans cette base (membres trouvés). Relancer l'initialisation écrasera le compte Tony Diaz mais ne touchera pas le reste.</p>
+    </div>
+
+    <div class="field" style="margin-top:18px;">
+      <label>Mot de passe pour Tony Diaz</label>
+      <input type="password" id="inpPass" value="tony2026">
+      <p class="small muted" style="margin-top:4px;">Par défaut : prénom + 2026. Modifiable ici avant l'initialisation.</p>
+    </div>
+
+    <button class="btn btn-primary" onclick="initialiser()">Initialiser le site</button>
+    <div id="statusMsg" class="login-error" style="color:var(--success);"></div>
+    <div class="login-foot"><a href="index.html">← Retour à la connexion</a></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script>
+(async function checkExisting() {
+  try {
+    const snap = await db.ref("membres").once("value");
+    if (snap.val()) document.getElementById("warnBox").style.display = "block";
+  } catch (e) {}
+})();
+
+async function initialiser() {
+  const pass = document.getElementById("inpPass").value || "tony2026";
+  const statusEl = document.getElementById("statusMsg");
+  statusEl.style.color = "var(--steel)";
+  statusEl.textContent = "Initialisation en cours…";
+
+  try {
+    const tonyId = "tony_diaz";
+
+    await db.ref("membres/" + tonyId).set({
+      prenom: "Tony",
+      nom: "Diaz",
+      grade: "Fondateur",
+      role: "admin",
+      mot_de_passe: pass,
+      actif: true,
+      quota: 0
+    });
+
+    await db.ref("grades/fondateur").set({ nom: "Fondateur", ordre: 1 });
+
+    // accès total pour le Fondateur sur toutes les pages
+    const permsFondateur = {};
+    PAGES_DISPO.forEach(p => permsFondateur[p.page] = true);
+    await db.ref("permissions/Fondateur").set(permsFondateur);
+
+    const semaineId = "semaine_1";
+    const bounds = (function () {
+      function getParisParts(ts) {
+        const fmt = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit",
+          hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
+        });
+        const parts = fmt.formatToParts(new Date(ts));
+        const get = (t) => Number(parts.find((p) => p.type === t).value);
+        return { year: get("year"), month: get("month"), day: get("day"), hour: get("hour") === 24 ? 0 : get("hour"), minute: get("minute"), second: get("second") };
+      }
+      function ajouterJoursCivils(y, m, d, jours) {
+        const anchor = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+        anchor.setUTCDate(anchor.getUTCDate() + jours);
+        return { year: anchor.getUTCFullYear(), month: anchor.getUTCMonth() + 1, day: anchor.getUTCDate() };
+      }
+      function parisWallToUTC(y, m, d, h, mi, s) {
+        let guess = Date.UTC(y, m - 1, d, h, mi, s || 0);
+        for (let i = 0; i < 2; i++) {
+          const p = getParisParts(guess);
+          const guessAsIfLocal = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute, p.second);
+          guess += Date.UTC(y, m - 1, d, h, mi, s || 0) - guessAsIfLocal;
+        }
+        return guess;
+      }
+      const now = Date.now();
+      const p = getParisParts(now);
+      const wd = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Paris", weekday: "short" }).format(new Date(now));
+      const weekday = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 }[wd];
+      let dimRef = ajouterJoursCivils(p.year, p.month, p.day, -weekday);
+      let debut = parisWallToUTC(dimRef.year, dimRef.month, dimRef.day, 19, 0, 0);
+      if (debut > now) { dimRef = ajouterJoursCivils(dimRef.year, dimRef.month, dimRef.day, -7); debut = parisWallToUTC(dimRef.year, dimRef.month, dimRef.day, 19, 0, 0); }
+      const dimSuivant = ajouterJoursCivils(dimRef.year, dimRef.month, dimRef.day, 7);
+      const fin = parisWallToUTC(dimSuivant.year, dimSuivant.month, dimSuivant.day, 19, 0, 0);
+      function fmtJJMM(ts) { const pp = getParisParts(ts); return String(pp.day).padStart(2, "0") + "/" + String(pp.month).padStart(2, "0"); }
+      return { debut, fin, nom: "Semaine du " + fmtJJMM(debut) + " au " + fmtJJMM(fin) };
+    })();
+    await db.ref("semaines/" + semaineId).set({
+      nom: bounds.nom,
+      bloquee: false,
+      createdAt: Date.now(),
+      debut: bounds.debut,
+      fin: bounds.fin,
+      verrouAt: bounds.fin
+    });
+
+    // structures vides prêtes à être remplies depuis l'Admin
+    await db.ref("config").update({
+      blanchiment_taux: 35,
+      nom_groupe: "Le Viking"
+    });
+
+    statusEl.style.color = "var(--success)";
+    statusEl.textContent = "✅ Site initialisé. Redirection…";
+    setTimeout(() => window.location.href = "index.html", 1400);
+  } catch (e) {
+    statusEl.style.color = "var(--danger)";
+    statusEl.textContent = "Erreur : " + e.message + " (vérifiez js/firebase-config.js et les règles de la base).";
+  }
+}
+</script>
+</body>
+</html>
