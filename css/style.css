@@ -386,3 +386,103 @@ td{border-bottom:1px solid rgba(107,107,107,.18);}
 ::-webkit-scrollbar{width:10px; height:10px;}
 ::-webkit-scrollbar-track{background:var(--bg-0);}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--steel),#3a0000); border:1px solid var(--gold-dim); border-radius:2px;}
+
+
+/* ============================================================
+   VIKING MODE — édition renforcée
+   Curseurs, bannières, fumée, runes, bois/métal
+   ============================================================ */
+
+body{
+  cursor:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj4KPGcgdHJhbnNmb3JtPSJyb3RhdGUoLTQwIDE2IDE2KSI+CjxyZWN0IHg9IjE0LjUiIHk9IjQiIHdpZHRoPSIzIiBoZWlnaHQ9IjI0IiByeD0iMS4yIiBmaWxsPSIjNkI2QjZCIiBzdHJva2U9IiMwQTBBMEEiIHN0cm9rZS13aWR0aD0iMC42Ii8+CjxyZWN0IHg9IjE1LjMiIHk9IjQiIHdpZHRoPSIxLjIiIGhlaWdodD0iMjQiIGZpbGw9IiM5YjliOWIiLz4KPHBhdGggZD0iTTE2IDIgQzkgMyA1IDcgNSAxMiBDNSAxNC41IDcgMTUuNSA5IDE1IEMxMyAxNCAxNiAxMCAxNiA1IFoiIGZpbGw9IiNDMTEyMUYiIHN0cm9rZT0iIzBBMEEwQSIgc3Ryb2tlLXdpZHRoPSIxIi8+CjxwYXRoIGQ9Ik0xNiAyIEM5IDMgNSA3IDUgMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2YyZjJmMiIgc3Ryb2tlLXdpZHRoPSIwLjgiIG9wYWNpdHk9IjAuNSIvPgo8L2c+Cjwvc3ZnPgo=") 6 6, auto;
+}
+a, button, .btn, .nav-item, .tab, .badge, input[type="checkbox"], input[type="radio"], select, .card, [onclick], .clickable, th{
+  cursor:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmlld0JveD0iMCAwIDMwIDMwIj4KPGcgdHJhbnNmb3JtPSJyb3RhdGUoNDUgMTUgMTUpIj4KPHJlY3QgeD0iMTMuNyIgeT0iMiIgd2lkdGg9IjIuNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI2Q5ZDlkOSIgc3Ryb2tlPSIjMEEwQTBBIiBzdHJva2Utd2lkdGg9IjAuNSIvPgo8cmVjdCB4PSIxNC41IiB5PSIyIiB3aWR0aD0iMC44IiBoZWlnaHQ9IjE2IiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjciLz4KPHJlY3QgeD0iOSIgeT0iMTgiIHdpZHRoPSIxMiIgaGVpZ2h0PSIyLjQiIHJ4PSIxIiBmaWxsPSIjNkI2QjZCIiBzdHJva2U9IiMwQTBBMEEiIHN0cm9rZS13aWR0aD0iMC41Ii8+CjxyZWN0IHg9IjEzLjQiIHk9IjIwLjIiIHdpZHRoPSIzLjIiIGhlaWdodD0iMi4yIiBmaWxsPSIjM2EyYTFhIi8+CjxjaXJjbGUgY3g9IjE1IiBjeT0iMjQuNSIgcj0iMi4xIiBmaWxsPSIjQzExMjFGIiBzdHJva2U9IiMwQTBBMEEiIHN0cm9rZS13aWR0aD0iMC42Ii8+CjwvZz4KPC9zdmc+Cg==") 15 15, pointer;
+}
+input[type="text"], input[type="password"], input[type="number"], input[type="date"], textarea{
+  cursor:text;
+}
+
+/* fond : brume + braises flottantes */
+.shell::before, .login-wrap::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.5;
+  background-image:
+    radial-gradient(2px 2px at 10% 90%, #C1121F, transparent),
+    radial-gradient(1.5px 1.5px at 25% 80%, #C1121F, transparent),
+    radial-gradient(2px 2px at 40% 95%, #8B0000, transparent),
+    radial-gradient(1.5px 1.5px at 60% 85%, #C1121F, transparent),
+    radial-gradient(2px 2px at 78% 92%, #8B0000, transparent),
+    radial-gradient(1.5px 1.5px at 92% 80%, #C1121F, transparent);
+  background-size:100% 100%;
+  animation:embers 9s linear infinite;
+}
+@keyframes embers{
+  0%{background-position:0 0,0 0,0 0,0 0,0 0,0 0; opacity:.15;}
+  50%{opacity:.55;}
+  100%{background-position:6px -420px,-10px -480px,14px -520px,-8px -460px,10px -500px,-6px -440px; opacity:0;}
+}
+@media (prefers-reduced-motion:reduce){.shell::before,.login-wrap::before{animation:none; display:none;}}
+
+/* texture bois/cuir sous les panneaux */
+.card, .panel, .login-card{
+  background-blend-mode:overlay;
+  background-image:
+    var(--rivet),var(--rivet),var(--rivet),var(--rivet),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.012) 0 2px, transparent 2px 5px),
+    linear-gradient(180deg,var(--bg-3),var(--bg-2));
+  background-size:8px 8px,8px 8px,8px 8px,8px 8px,auto,100% 100%;
+}
+
+/* bannière déchirée façon étendard viking pour les titres de section */
+.panel-head h2, .topbar-title{
+  position:relative; padding-left:22px;
+}
+.panel-head h2::before{content:none;}
+.panel-head h2::after, .topbar-title::before{
+  content:"⚔"; position:absolute; left:-2px; top:50%; transform:translateY(-50%);
+  color:var(--gold); font-size:1em; text-shadow:0 0 10px rgba(193,18,31,.6);
+}
+
+/* login : bannière de bois suspendue à des chaînes */
+.login-wrap{position:relative;}
+.login-card{
+  border-top:none; border-radius:2px;
+  clip-path:polygon(0 10px,4% 0,96% 0,100% 10px,100% 100%,0 100%);
+  box-shadow:0 0 0 1px rgba(107,107,107,.3), 0 40px 90px rgba(0,0,0,.75), 0 0 60px rgba(139,0,0,.15);
+}
+.login-card::before{content:none;}
+.login-card::after{
+  content:"⛓"; position:absolute; top:-26px; left:14px; color:var(--gold-dim); font-size:20px; opacity:.8;
+  text-shadow:-40px 4px 0 var(--gold-dim);
+}
+.login-brand{
+  font-family:'Cinzel Decorative','Cinzel',serif; font-weight:900; font-size:32px; letter-spacing:.16em;
+  animation:braise 4s ease-in-out infinite; position:relative;
+}
+.login-brand::before{content:"ᛝ "; color:var(--gold); opacity:.7;}
+.login-brand::after{content:" ᛝ"; color:var(--gold); opacity:.7;}
+
+/* icônes du menu remplacées par symboles runiques/nordiques cohérents */
+.sidebar{background-image:repeating-linear-gradient(180deg, rgba(107,107,107,.03) 0 2px, transparent 2px 40px), linear-gradient(180deg, rgba(17,17,17,.96), rgba(10,10,10,.98));}
+.nav-item.active{box-shadow:inset 0 0 22px rgba(139,0,0,.3), inset 3px 0 0 var(--gold);}
+.nav-item .ic{filter:drop-shadow(0 0 3px rgba(193,18,31,.4));}
+
+/* boutons : forgés, gravure runique au survol */
+.btn{position:relative; overflow:hidden; text-transform:uppercase; letter-spacing:.08em;}
+.btn-primary::before{
+  content:"ᚱᛟᚱᛁᚲ"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:var(--rune-font); color:rgba(255,255,255,.12); font-size:11px; letter-spacing:.3em; pointer-events:none;
+}
+
+/* tableaux : runestones */
+th{position:relative;}
+th::after{content:"ᛒ"; margin-left:6px; color:var(--gold-dim); font-family:var(--rune-font); opacity:.5;}
+tr:hover td{box-shadow:inset 0 0 24px rgba(193,18,31,.08);}
+
+/* badges : bouclier */
+.badge{clip-path:polygon(50% 0,100% 20%,100% 70%,50% 100%,0 70%,0 20%); border-radius:0; padding:4px 12px;}
+
+/* scroll d'ambiance : léger tremblement du fond au chargement */
+@keyframes flicker{0%,97%,100%{filter:brightness(1);} 98%{filter:brightness(1.06);} 99%{filter:brightness(.96);}}
+body{animation:flicker 11s infinite;}
+@media (prefers-reduced-motion:reduce){body{animation:none;}}
