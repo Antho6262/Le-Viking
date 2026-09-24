@@ -4,16 +4,16 @@
    ============================================================ */
 
 const NAV_ITEMS = [
-  { page: "dashboard",    icon: "🏠", label: "Dashboard",    file: "dashboard.html" },
-  { page: "tracker",      icon: "📋", label: "Tracker",      file: "tracker.html" },
-  { page: "stock",        icon: "📦", label: "Stock",        file: "stock.html" },
+  { page: "dashboard",    icon: "🛡️", label: "Dashboard",    file: "dashboard.html" },
+  { page: "tracker",      icon: "📜", label: "Tracker",      file: "tracker.html" },
+  { page: "stock",        icon: "⚓", label: "Stock",        file: "stock.html" },
   { page: "transactions", icon: "🔁", label: "Transactions", file: "transactions.html" },
   { page: "blanchiment",  icon: "💵", label: "Blanchiment",  file: "blanchiment.html" },
   { page: "stats",        icon: "📊", label: "Stats & Quotas", file: "stats.html" },
   { page: "paye",         icon: "💰", label: "Paye",         file: "paye.html" },
   { page: "taxes",        icon: "🧾", label: "Taxes",        file: "taxes.html" },
-  { page: "admin",        icon: "⚙️", label: "Admin",        file: "admin.html" },
-  { page: "profil",       icon: "👤", label: "Profil",       file: "profil.html" }
+  { page: "admin",        icon: "🔨", label: "Admin",        file: "admin.html" },
+  { page: "profil",       icon: "🐺", label: "Profil",       file: "profil.html" }
 ];
 
 /* Navigation à plat — tous les éléments toujours visibles dans la sidebar. */
@@ -90,7 +90,7 @@ async function initShell(activePage, pageTitle) {
         <div class="sidebar-head">
           <img src="${root}img/logo.png" alt="Le Viking" class="sidebar-coin">
           <div class="sidebar-logo"><span class="full">LE VIKING</span></div>
-          <div class="sidebar-tag">⚔ Valhalla ⚔</div>
+          <div class="sidebar-tag">ᛉ Valhalla ᛉ</div>
         </div>
         <nav class="nav">${navHtml}</nav>
         <div class="sidebar-foot">
