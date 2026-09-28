@@ -584,3 +584,21 @@ body{ color:#ececec; }
   content:"ᛝ"; position:absolute; top:2px; right:28px; font-family:var(--rune-font);
   font-size:46px; color:rgba(193,18,31,.06); pointer-events:none; line-height:1;
 }
+
+
+/* ============================================================
+   LOGO — casque viking (remplace le médaillon rond)
+   ============================================================ */
+.login-coin{
+  width:210px; height:auto; border-radius:0; border:none; object-fit:contain;
+  box-shadow:none; animation:none; margin:0 auto 6px;
+  filter:drop-shadow(0 0 18px rgba(193,18,31,.35));
+}
+.sidebar-coin{
+  width:150px; height:auto; border-radius:0; border:none; object-fit:contain;
+  box-shadow:none; animation:none; margin-bottom:6px;
+  filter:drop-shadow(0 0 14px rgba(193,18,31,.35));
+}
+/* le logo contient déjà « LE VIKING » : on masque le texte en double */
+.login-brand, .sidebar-logo{display:none;}
+@media (max-width:680px){ .sidebar-coin{width:56px; height:auto;} }
